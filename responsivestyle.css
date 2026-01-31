@@ -1,0 +1,63 @@
+/* MOBILE NAVIGATION (Optional - for smaller screens) */
+@media (max-width: 768px) {
+  .nav-container {
+    padding: 0 1rem;
+  }
+  
+  .nav-menu {
+    gap: 1rem;
+  }
+  
+  .logo-text {
+    font-size: 1rem;
+  }
+  
+  .nav-item {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.5rem;
+  }
+  
+  .dropdown-menu {
+    min-width: 180px;
+  }
+}
+
+/* HAMBURGER MENU (For mobile if needed later) */
+.mobile-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.mobile-toggle span {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: #FF8C00;
+  margin: 4px 0;
+  transition: 0.3s;
+}
+
+@media (max-width: 640px) {
+  .mobile-toggle {
+    display: block;
+  }
+  
+  .nav-menu {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    right: 0;
+    background: #121212;
+    flex-direction: column;
+    padding: 1rem;
+    border-top: 1px solid #252525;
+    display: none;
+  }
+  
+  .nav-menu.active {
+    display: flex;
+  }
+}

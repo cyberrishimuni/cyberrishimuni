@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | Cyber-Muni</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-accent: #FF8C00;
+            --secondary-glow: #FFFACD;
+            --foundation-black: #121212;
+            --neutral-gray: #D3D3D3;
+            --dark-charcoal: #1E1E1E;
+            --card-gray: #2A2A2A;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--foundation-black);
+            color: var(--neutral-gray);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+       
+
+        .circuit-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ff8c00' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .logo {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--primary-accent);
+            text-decoration: none;
+            position: relative;
+            z-index: 2;
+        }
+
+        .logo span {
+            color: var(--secondary-glow);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: var(--neutral-gray);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-accent);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(to right, var(--primary-accent), var(--secondary-glow));
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 80px 0 60px;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            color: var(--primary-accent);
+            font-weight: 700;
+        }
+
+        .hero h1 .mono {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--secondary-glow);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 40px;
+            color: var(--neutral-gray);
+        }
+
+        .glow-effect {
+            text-shadow: 0 0 10px rgba(255, 140, 0, 0.3);
+        }
+
+        /* Founders Section */
+        .founders-section {
+            padding: 60px 0 100px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--primary-accent);
+            display: inline-block;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-accent), var(--secondary-glow));
+            border-radius: 2px;
+        }
+
+        .founders-container {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            flex-wrap: wrap;
+        }
+
+        .founder-card {
+            background: var(--dark-charcoal);
+            border-radius: 12px;
+            padding: 40px;
+            width: 100%;
+            max-width: 500px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid rgba(255, 140, 0, 0.1);
+        }
+
+        .founder-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 140, 0, 0.15);
+        }
+
+        .founder-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-accent), var(--secondary-glow));
+        }
+
+        .founder-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .founder-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-accent), var(--secondary-glow));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--foundation-black);
+            margin-right: 25px;
+        }
+
+        .founder-info h3 {
+            font-size: 1.8rem;
+            color: var(--primary-accent);
+            margin-bottom: 5px;
+        }
+
+        .founder-title {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--secondary-glow);
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+
+        .founder-tag {
+            display: inline-block;
+            background: rgba(255, 140, 0, 0.1);
+            color: var(--primary-accent);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .founder-bio {
+            margin-bottom: 25px;
+            font-size: 1.05rem;
+        }
+
+        .expertise-section h4 {
+            color: var(--primary-accent);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .expertise-section h4::before {
+            content: '▸';
+            margin-right: 10px;
+            color: var(--secondary-glow);
+        }
+
+        .expertise-list {
+            list-style-type: none;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .expertise-list li {
+            padding: 8px 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 6px;
+            font-size: 0.95rem;
+            transition: background 0.3s;
+        }
+
+        .expertise-list li:hover {
+            background: rgba(255, 140, 0, 0.1);
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-accent);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--neutral-gray);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Philosophy Section */
+        .philosophy-section {
+            padding: 80px 0;
+            background: rgba(30, 30, 30, 0.5);
+            position: relative;
+        }
+
+        .philosophy-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ff8c00' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.5;
+        }
+
+        .philosophy-content {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .philosophy-title {
+            text-align: center;
+            color: var(--primary-accent);
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+        }
+
+        .philosophy-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .philosophy-card {
+            background: rgba(42, 42, 42, 0.8);
+            padding: 30px;
+            border-radius: 10px;
+            border-left: 4px solid var(--primary-accent);
+            transition: transform 0.3s;
+        }
+
+        .philosophy-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .philosophy-card h3 {
+            color: var(--secondary-glow);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .quote-container {
+            background: rgba(255, 140, 0, 0.05);
+            padding: 40px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid rgba(255, 140, 0, 0.2);
+        }
+
+        .quote {
+            font-size: 1.5rem;
+            color: var(--neutral-gray);
+            font-style: italic;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .quote::before, .quote::after {
+            content: '"';
+            color: var(--primary-accent);
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .quote-author {
+            color: var(--secondary-glow);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.1rem;
+        }
+
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .founders-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .philosophy-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                gap: 15px;
+            }
+            
+            .founder-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .founder-avatar {
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+            
+            .expertise-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .philosophy-grid {
+                grid-template-columns: 1fr;
+            }
+            
+         
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero {
+                padding: 50px 0 30px;
+            }
+            
+            .founder-card {
+                padding: 25px;
+            }
+            
+            .stats {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+    </style>
+       <link rel="stylesheet" href="style.css">
+</head>
+<body>
+      <!-- Circuit Background Pattern -->
+    <div class="circuit-bg"></div>
+    
+    <!-- Cyber-Vedic Header -->
+   <header class="cyber-header">
+        <div class="header-container">
+           <a href="#" class="logo"
+   style="
+     display:flex;
+     align-items:center;
+     gap:10px;
+     text-decoration:none;
+     font-family:Inter, sans-serif;
+     font-weight:600;
+     font-size:clamp(1rem, 2.5vw, 1.4rem);
+     color:#fff;
+   ">
+
+    <div class="logo-iconimg"
+         style="
+           width:clamp(32px, 5vw, 44px);
+           height:clamp(32px, 5vw, 44px);
+           border-radius:50%;
+           overflow:hidden;
+           flex-shrink:0;
+         ">
+        <img src="image.jpg"
+             alt="CyberRishimuni Logo"
+             style="
+               width:100%;
+               height:100%;
+               object-fit:cover;
+               display:block;
+             ">
+    </div>
+
+    <span style="white-space:nowrap;">CyberRishimuni</span>
+</a>
+
+            
+            <nav class="nav-menu">
+                <ul class="nav-links">
+                    <li class="dropdown">
+                        <a href="#">Courses <i class="fas fa-chevron-down"></i></a>
+                        <div class="dropdown-content">
+                            <a href="#">Web Development</a>
+                            <a href="#">Software Testing</a>
+                            <a href="#">Data Analytics</a>
+                        </div>
+                    </li>
+                    <li><a href="#">Roadmaps</a></li>
+                    <li><a href="#">Resources</a></li>
+                    <li><a href="#">YouTube</a></li>
+                </ul>
+            </nav>
+            
+        </div>
+        
+   
+    </header>
+    
+  
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1 class="glow-effect">The <span class="mono">Architects</span> Behind the Vision</h1>
+            <p>Where ancient wisdom converges with cutting-edge technology. Meet the industry experts who are redefining the future of digital innovation.</p>
+        </div>
+    </section>
+
+    <!-- Founders Section -->
+    <section class="founders-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Founders</h2>
+            </div>
+            
+            <div class="founders-container">
+                <!-- Founder 1: Harshit -->
+                <div class="founder-card">
+                    <div class="founder-header">
+                         <div class="founder-avatar"
+     style="
+       width:clamp(60px, 10vw, 120px);
+       height:clamp(60px, 10vw, 120px);
+       border-radius:50%;
+       overflow:hidden;
+       
+       flex-shrink:0;
+     ">
+    <img src="h.jpg"
+         alt="Founder Photo"
+         style="
+           width:100%;
+           height:100%;
+           object-fit:cover;
+           display:block;
+         ">
+</div>
+                        <div class="founder-info">
+                            <h3>Harshit Joshi</h3>
+                            <div class="founder-title">CTO & AI Systems Architect</div>
+                            <div class="founder-tag">15+ Years in Tech</div>
+                        </div>
+                    </div>
+                    
+                    <div class="founder-bio">
+                        Harshit is a visionary technologist specializing in artificial intelligence and distributed systems. His expertise lies in creating intelligent architectures that bridge human intuition with machine precision.
+                    </div>
+                    
+                    <div class="expertise-section">
+                        <h4>Core Expertise</h4>
+                        <ul class="expertise-list">
+                            <li>AI/ML Systems</li>
+                            <li>Blockchain Architecture</li>
+                            <li>Quantum Computing</li>
+                            <li>Cyber Security</li>
+                            <li>Cloud Infrastructure</li>
+                            <li>DevOps Automation</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="stats">
+                        <div class="stat-item">
+                            <span class="stat-number">150+</span>
+                            <span class="stat-label">Projects</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">12</span>
+                            <span class="stat-label">Patents</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">Global</span>
+                            <span class="stat-label">Footprint</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Founder 2: Gagan -->
+                <div class="founder-card">
+                    <div class="founder-header">
+                       <div class="founder-avatar"
+     style="
+       width:clamp(60px, 10vw, 120px);
+       height:clamp(60px, 10vw, 120px);
+       border-radius:50%;
+       overflow:hidden;
+       
+       flex-shrink:0;
+     ">
+    <img src="gagan.jpg"
+         alt="Founder Photo"
+         style="
+           width:100%;
+           height:100%;
+           object-fit:cover;
+           display:block;
+         ">
+</div>
+
+                        <div class="founder-info">
+                            <h3>Gagan Deep Singh Kalsi  </h3>
+                            <div class="founder-title">CEO & Digital Strategy Lead</div>
+                            <div class="founder-tag">12+ Years in Leadership</div>
+                        </div>
+                    </div>
+                    
+                    <div class="founder-bio">
+                        Gagan is a strategic innovator with a proven track record of transforming businesses through digital disruption. He excels at aligning technological capabilities with market opportunities.
+                    </div>
+                    
+                    <div class="expertise-section">
+                        <h4>Core Expertise</h4>
+                        <ul class="expertise-list">
+                            <li>Digital Transformation</li>
+                            <li>Business Strategy</li>
+                            <li>Product Innovation</li>
+                            <li>Market Expansion</li>
+                            <li>Client Relations</li>
+                            <li>Team Leadership</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="stats">
+                        <div class="stat-item">
+                            <span class="stat-number">50+</span>
+                            <span class="stat-label">Enterprises</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">$2.5B</span>
+                            <span class="stat-label">Value Created</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">Global</span>
+                            <span class="stat-label">Network</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Philosophy Section -->
+    <section class="philosophy-section">
+        <div class="container">
+            <div class="philosophy-content">
+                <h2 class="philosophy-title">Our Philosophy</h2>
+                
+                <div class="philosophy-grid">
+                    <div class="philosophy-card">
+                        <h3>01. Convergence</h3>
+                        <p>We believe the future lies at the intersection of ancient wisdom and modern technology. Our approach integrates timeless principles with cutting-edge innovation.</p>
+                    </div>
+                    
+                    <div class="philosophy-card">
+                        <h3>02. Precision</h3>
+                        <p>Every line of code, every strategic decision is made with meticulous attention to detail. We engineer solutions that are both elegant and effective.</p>
+                    </div>
+                    
+                    <div class="philosophy-card">
+                        <h3>03. Enlightenment</h3>
+                        <p>Technology should illuminate, not obscure. We build systems that enhance human potential and foster deeper understanding.</p>
+                    </div>
+                </div>
+                
+                <div class="quote-container">
+                    <div class="quote">
+                        The most profound technologies are those that disappear. They weave themselves into the fabric of everyday life until they are indistinguishable from it.
+                    </div>
+                    <div class="quote-author">- Harshit & Gagan, Cyber-Muni Manifesto</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+      <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>About CodeSage</h3>
+                <p style="color: var(--silver-text); margin-bottom: 1.5rem;">CodeSage is dedicated to bridging the gap between academic learning and industry requirements through cyber-vedic wisdom.</p>
+                <div class="logo" style="font-size: 1.2rem;">
+                    <div class="logo-icon" style="width: 30px; height: 30px;"></div>
+                    CodeSage
+                </div>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Contact</h3>
+                <div class="contact-info">
+                    <p><i class="fas fa-envelope"></i> support@codesage.dev</p>
+                    <p><i class="fas fa-globe"></i> Remote/Global</p>
+                    <p><i class="fas fa-clock"></i> 24/7 Learning Access</p>
+                </div>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Newsletter</h3>
+                <p style="color: var(--silver-text); margin-bottom: 1.5rem;">Get the latest tutorials and code snippets delivered to your inbox.</p>
+                <div class="newsletter">
+                    <input type="email" placeholder="Enter your email">
+                    <button class="btn-subscribe">Subscribe</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <div class="copyright">
+                © 2026 CodeSage. All Rights Reserved. | Cyber-Vedic Tech Academy
+            </div>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#"><i class="fab fa-github"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    
+</body>
+</html>
