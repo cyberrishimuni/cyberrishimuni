@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe · Cyber Rishimuni</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #0D0D0D;
+            background: linear-gradient(145deg, #0D0D0D 0%, #121212 100%);
+            font-family: 'Segoe UI', 'Arial', system-ui, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+            color: #FFFFFF;
+        }
+
+        /* Cyber Rishimuni Logo - Bottom Right */
+        .cyber-logo {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            font-family: "Segoe UI", sans-serif;
+            transition: transform 0.3s ease;
+        }
+
+        .cyber-logo:hover {
+            transform: scale(1.05);
+            opacity: 0.9;
+        }
+
+        .cyber-logo img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #F59E0B;
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.3);
+        }
+
+        .cyber-logo .logo-text {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 22px;
+            font-weight: 600;
+            color: #F59E0B;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
+            background: rgba(26, 26, 26, 0.8);
+            padding: 8px 16px;
+            border-radius: 30px;
+            border: 1px solid #F59E0B;
+            backdrop-filter: blur(5px);
+            font-family: 'Courier New', monospace;
+        }
+
+        /* subtle background effect */
+        .bg-bling {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 30% 40%, rgba(245, 158, 11, 0.05) 0%, transparent 40%),
+                        radial-gradient(circle at 80% 70%, rgba(245, 158, 11, 0.05) 0%, transparent 45%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* main card */
+        .game-card {
+            background: #1A1A1A;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 60px;
+            box-shadow: 0 25px 45px -10px rgba(0, 0, 0, 0.5),
+                        0 2px 8px rgba(245, 158, 11, 0.2);
+            padding: 3rem;
+            text-align: center;
+            border: 2px solid #2A2A2A;
+            transition: all 0.3s ease;
+            max-width: 600px;
+            width: 100%;
+            position: relative;
+            z-index: 10;
+        }
+
+        .game-card:hover {
+            border-color: #F59E0B;
+            box-shadow: 0 30px 55px -8px rgba(245, 158, 11, 0.2);
+        }
+
+        /* header */
+        .game-header {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: #F59E0B;
+            text-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
+            letter-spacing: 4px;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 0.5rem;
+        }
+
+        .game-sub {
+            color: #A0A0A0;
+            font-size: 1rem;
+            letter-spacing: 2px;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #2A2A2A;
+            padding-bottom: 1rem;
+        }
+
+        /* game mode selector */
+        .mode-selector {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 2rem;
+            justify-content: center;
+        }
+
+        .mode-btn {
+            background: #0D0D0D;
+            border: 2px solid #2A2A2A;
+            border-radius: 40px;
+            padding: 1rem 2rem;
+            color: #A0A0A0;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+            max-width: 200px;
+        }
+
+        .mode-btn:hover {
+            border-color: #F59E0B;
+            color: #F59E0B;
+        }
+
+        .mode-btn.active {
+            background: #F59E0B;
+            border-color: #FF9F1C;
+            color: #0D0D0D;
+            font-weight: bold;
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
+        }
+
+        /* game status */
+        .game-status {
+            background: #0D0D0D;
+            border: 2px solid #2A2A2A;
+            border-radius: 40px;
+            padding: 1rem 2rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .player-turn {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .player-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .player-icon.x {
+            background: #F59E0B;
+            color: #0D0D0D;
+            box-shadow: 0 0 15px #F59E0B;
+        }
+
+        .player-icon.o {
+            background: #FF9F1C;
+            color: #0D0D0D;
+            box-shadow: 0 0 15px #FF9F1C;
+        }
+
+        .turn-indicator {
+            color: #FFFFFF;
+            font-size: 1.2rem;
+        }
+
+        .turn-indicator span {
+            color: #F59E0B;
+            font-weight: bold;
+        }
+
+        .score-board {
+            display: flex;
+            gap: 20px;
+        }
+
+        .score-item {
+            text-align: center;
+        }
+
+        .score-label {
+            color: #A0A0A0;
+            font-size: 0.9rem;
+        }
+
+        .score-value {
+            color: #F59E0B;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        /* tic tac toe grid */
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 2rem;
+        }
+
+        .cell {
+            aspect-ratio: 1;
+            background: #0D0D0D;
+            border: 2px solid #2A2A2A;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #F59E0B;
+        }
+
+        .cell:hover:not(.disabled) {
+            border-color: #F59E0B;
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(245, 158, 11, 0.3);
+        }
+
+        .cell.x {
+            color: #F59E0B;
+            text-shadow: 0 0 20px #F59E0B;
+        }
+
+        .cell.o {
+            color: #FF9F1C;
+            text-shadow: 0 0 20px #FF9F1C;
+        }
+
+        .cell.win {
+            animation: winPulse 1s ease infinite;
+        }
+
+        @keyframes winPulse {
+            0%, 100% {
+                transform: scale(1);
+                border-color: #F59E0B;
+                box-shadow: 0 0 30px #F59E0B;
+            }
+            50% {
+                transform: scale(1.1);
+                border-color: #FF9F1C;
+                box-shadow: 0 0 50px #FF9F1C;
+            }
+        }
+
+        .cell.disabled {
+            cursor: not-allowed;
+            opacity: 0.8;
+        }
+
+        /* control buttons */
+        .control-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .control-btn {
+            flex: 1;
+            background: transparent;
+            border: 2px solid #2A2A2A;
+            border-radius: 40px;
+            padding: 1rem;
+            color: #A0A0A0;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .control-btn:hover {
+            border-color: #F59E0B;
+            color: #F59E0B;
+        }
+
+        .control-btn.reset {
+            background: #F59E0B;
+            border-color: #FF9F1C;
+            color: #0D0D0D;
+            font-weight: bold;
+            box-shadow: 0 5px 0 #b37008;
+            transform: translateY(-2px);
+        }
+
+        .control-btn.reset:hover {
+            transform: translateY(0);
+            box-shadow: 0 2px 0 #b37008;
+        }
+
+        .control-btn.reset:active {
+            transform: translateY(3px);
+            box-shadow: 0 0 0 #b37008;
+        }
+
+        /* winner message */
+        .winner-message {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid #F59E0B;
+            border-radius: 30px;
+            color: #F59E0B;
+            font-size: 1.2rem;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* responsive */
+        @media (max-width: 500px) {
+            .game-card {
+                padding: 1.5rem;
+            }
+            
+            .game-header {
+                font-size: 2.5rem;
+            }
+            
+            .mode-selector {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .mode-btn {
+                max-width: 100%;
+            }
+            
+            .game-status {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .cell {
+                font-size: 3rem;
+            }
+            
+            .cyber-logo {
+                bottom: 10px;
+                right: 10px;
+            }
+            
+            .cyber-logo .logo-text {
+                font-size: 18px;
+                padding: 6px 12px;
+            }
+            
+            .cyber-logo img {
+                width: 35px;
+                height: 35px;
+            }
+        }
+
+        @media (max-width: 450px) {
+            .cyber-logo .logo-text {
+                font-size: 14px;
+                padding: 4px 8px;
+            }
+            .cyber-logo img {
+                width: 30px;
+                height: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-bling"></div>
+
+    <div class="game-card">
+        <div class="game-header">TIC TAC TOE</div>
+        <div class="game-sub">⚡ classic game · cyber rishimuni</div>
+
+        <!-- game mode selector -->
+        <div class="mode-selector">
+            <button class="mode-btn active" onclick="setMode('pvp')">👥 2 PLAYER</button>
+            <button class="mode-btn" onclick="setMode('pvc')">🤖 VS CPU</button>
+        </div>
+
+        <!-- game status -->
+        <div class="game-status">
+            <div class="player-turn">
+                <div class="player-icon x" id="currentPlayerIcon">X</div>
+                <div class="turn-indicator" id="turnIndicator">
+                    <span id="currentPlayer">X</span>'s turn
+                </div>
+            </div>
+            <div class="score-board">
+                <div class="score-item">
+                    <div class="score-label">X WINS</div>
+                    <div class="score-value" id="xScore">0</div>
+                </div>
+                <div class="score-item">
+                    <div class="score-label">O WINS</div>
+                    <div class="score-value" id="oScore">0</div>
+                </div>
+                <div class="score-item">
+                    <div class="score-label">DRAWS</div>
+                    <div class="score-value" id="drawScore">0</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- game grid -->
+        <div class="game-grid" id="gameGrid">
+            <!-- cells will be generated by JavaScript -->
+        </div>
+
+        <!-- control buttons -->
+        <div class="control-buttons">
+            <button class="control-btn reset" onclick="resetGame()">🔄 NEW GAME</button>
+            <button class="control-btn" onclick="resetScores()">📊 RESET SCORES</button>
+        </div>
+
+        <!-- winner message -->
+        <div id="winnerMessage" class="winner-message" style="display: none;"></div>
+    </div>
+
+    <!-- Cyber Rishimuni Logo -->
+    <div class="cyber-logo" onclick="window.open('https://cyberrishimuni.github.io/cyberrishimuni/', '_blank')">
+        <div class="logo-text">
+            <img src="../image.jpg" alt="Cyber Rishimuni Logo">
+            CYBER RISHIMUNI
+        </div>
+    </div>
+
+    <script>
+        // Game state
+        let board = ['', '', '', '', '', '', '', '', ''];
+        let currentPlayer = 'X';
+        let gameMode = 'pvp'; // 'pvp' or 'pvc'
+        let gameActive = true;
+        
+        // Scores
+        let xWins = 0;
+        let oWins = 0;
+        let draws = 0;
+
+        // Winning combinations
+        const winPatterns = [
+            [0, 1, 2], [3, 4, 5], [6, 7, 8], // rows
+            [0, 3, 6], [1, 4, 7], [2, 5, 8], // columns
+            [0, 4, 8], [2, 4, 6] // diagonals
+        ];
+
+        // DOM elements
+        const gameGrid = document.getElementById('gameGrid');
+        const currentPlayerIcon = document.getElementById('currentPlayerIcon');
+        const turnIndicator = document.getElementById('turnIndicator');
+        const currentPlayerSpan = document.getElementById('currentPlayer');
+        const xScoreEl = document.getElementById('xScore');
+        const oScoreEl = document.getElementById('oScore');
+        const drawScoreEl = document.getElementById('drawScore');
+        const winnerMessage = document.getElementById('winnerMessage');
+
+        // Initialize grid
+        function createGrid() {
+            gameGrid.innerHTML = '';
+            for (let i = 0; i < 9; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'cell';
+                cell.dataset.index = i;
+                cell.addEventListener('click', () => handleCellClick(i));
+                gameGrid.appendChild(cell);
+            }
+        }
+
+        // Handle cell click
+        function handleCellClick(index) {
+            if (!gameActive || board[index] !== '') return;
+            
+            // Make move
+            makeMove(index, currentPlayer);
+            
+            // Check game state
+            checkGameState();
+            
+            // CPU move if in PVC mode and game still active
+            if (gameMode === 'pvc' && gameActive && currentPlayer === 'O') {
+                setTimeout(cpuMove, 500);
+            }
+        }
+
+        // Make a move
+        function makeMove(index, player) {
+            board[index] = player;
+            const cell = gameGrid.children[index];
+            cell.textContent = player;
+            cell.classList.add(player.toLowerCase());
+            
+            // Switch player
+            currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+            updateTurnDisplay();
+        }
+
+        // CPU move
+        function cpuMove() {
+            if (!gameActive) return;
+            
+            // Get empty cells
+            const emptyCells = board.reduce((acc, cell, index) => {
+                if (cell === '') acc.push(index);
+                return acc;
+            }, []);
+            
+            if (emptyCells.length === 0) return;
+            
+            // Simple AI: try to win, block player, or random
+            let moveIndex = -1;
+            
+            // Try to win
+            for (let pattern of winPatterns) {
+                const [a, b, c] = pattern;
+                if (board[a] === 'O' && board[b] === 'O' && board[c] === '') moveIndex = c;
+                if (board[a] === 'O' && board[c] === 'O' && board[b] === '') moveIndex = b;
+                if (board[b] === 'O' && board[c] === 'O' && board[a] === '') moveIndex = a;
+            }
+            
+            // Block player
+            if (moveIndex === -1) {
+                for (let pattern of winPatterns) {
+                    const [a, b, c] = pattern;
+                    if (board[a] === 'X' && board[b] === 'X' && board[c] === '') moveIndex = c;
+                    if (board[a] === 'X' && board[c] === 'X' && board[b] === '') moveIndex = b;
+                    if (board[b] === 'X' && board[c] === 'X' && board[a] === '') moveIndex = a;
+                }
+            }
+            
+            // Random move
+            if (moveIndex === -1) {
+                const randomIndex = Math.floor(Math.random() * emptyCells.length);
+                moveIndex = emptyCells[randomIndex];
+            }
+            
+            // Make CPU move
+            makeMove(moveIndex, 'O');
+            checkGameState();
+        }
+
+        // Check game state
+        function checkGameState() {
+            let winner = null;
+            let winPattern = null;
+            
+            // Check for winner
+            for (let pattern of winPatterns) {
+                const [a, b, c] = pattern;
+                if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+                    winner = board[a];
+                    winPattern = pattern;
+                    break;
+                }
+            }
+            
+            if (winner) {
+                // Highlight winning cells
+                winPattern.forEach(index => {
+                    gameGrid.children[index].classList.add('win');
+                });
+                
+                // Update scores
+                if (winner === 'X') {
+                    xWins++;
+                    xScoreEl.textContent = xWins;
+                    showWinnerMessage('X wins! 🏆');
+                } else {
+                    oWins++;
+                    oScoreEl.textContent = oWins;
+                    showWinnerMessage('O wins! 🏆');
+                }
+                
+                gameActive = false;
+                disableAllCells();
+                
+            } else if (!board.includes('')) {
+                // Draw
+                draws++;
+                drawScoreEl.textContent = draws;
+                showWinnerMessage("It's a draw! 🤝");
+                gameActive = false;
+            }
+        }
+
+        // Show winner message
+        function showWinnerMessage(message) {
+            winnerMessage.textContent = message;
+            winnerMessage.style.display = 'block';
+        }
+
+        // Update turn display
+        function updateTurnDisplay() {
+            currentPlayerIcon.textContent = currentPlayer;
+            currentPlayerIcon.className = `player-icon ${currentPlayer.toLowerCase()}`;
+            currentPlayerSpan.textContent = currentPlayer;
+            
+            if (gameMode === 'pvc' && currentPlayer === 'O' && gameActive) {
+                turnIndicator.innerHTML = '<span>CPU</span> is thinking...';
+            } else {
+                turnIndicator.innerHTML = `<span>${currentPlayer}</span>'s turn`;
+            }
+        }
+
+        // Disable all cells
+        function disableAllCells() {
+            Array.from(gameGrid.children).forEach(cell => {
+                cell.classList.add('disabled');
+            });
+        }
+
+        // Enable all cells
+        function enableAllCells() {
+            Array.from(gameGrid.children).forEach(cell => {
+                cell.classList.remove('disabled', 'win');
+            });
+        }
+
+        // Reset game
+        function resetGame() {
+            board = ['', '', '', '', '', '', '', '', ''];
+            currentPlayer = 'X';
+            gameActive = true;
+            
+            // Clear grid
+            Array.from(gameGrid.children).forEach((cell, index) => {
+                cell.textContent = '';
+                cell.classList.remove('x', 'o', 'win', 'disabled');
+            });
+            
+            // Update display
+            updateTurnDisplay();
+            winnerMessage.style.display = 'none';
+            
+            // Enable cells
+            enableAllCells();
+        }
+
+        // Reset scores
+        function resetScores() {
+            xWins = 0;
+            oWins = 0;
+            draws = 0;
+            xScoreEl.textContent = xWins;
+            oScoreEl.textContent = oWins;
+            drawScoreEl.textContent = draws;
+            resetGame();
+        }
+
+        // Set game mode
+        function setMode(mode) {
+            gameMode = mode;
+            
+            // Update active button
+            document.querySelectorAll('.mode-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            resetGame();
+        }
+
+        // Initialize game
+        createGrid();
+        updateTurnDisplay();
+    </script>
+</body>
+</html>

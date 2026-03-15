@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator · Hindi Twist · Cyber Rishimuni</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #0D0D0D;
+            background: linear-gradient(145deg, #0D0D0D 0%, #121212 100%);
+            font-family: 'Segoe UI', 'Arial', system-ui, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 16px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* main card – dark theme */
+        .calculator-card {
+            background: #1A1A1A;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 56px;
+            box-shadow: 0 25px 45px -10px rgba(0, 0, 0, 0.5),
+                        0 2px 8px rgba(245, 158, 11, 0.2);
+            padding: 2.5rem 2rem;
+            text-align: center;
+            border: 2px solid #2A2A2A;
+            transition: box-shadow 0.3s, border-color 0.3s;
+            max-width: 450px;
+            width: 100%;
+        }
+
+        .calculator-card:hover {
+            box-shadow: 0 30px 55px -8px rgba(245, 158, 11, 0.15);
+            border-color: #F59E0B;
+        }
+
+        /* header */
+        .calc-header {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #F59E0B;
+            text-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
+            letter-spacing: 4px;
+            margin-bottom: 0.3rem;
+            font-family: 'Courier New', monospace;
+        }
+
+        .calc-sub {
+            font-size: 0.9rem;
+            color: #A0A0A0;
+            margin-bottom: 1.5rem;
+            letter-spacing: 2px;
+            border-bottom: 1px solid #2A2A2A;
+            padding-bottom: 0.8rem;
+        }
+
+        .magic-badge {
+            background: #F59E0B20;
+            border: 1px solid #F59E0B;
+            border-radius: 30px;
+            padding: 0.2rem 1rem;
+            display: inline-block;
+            margin-bottom: 1rem;
+            color: #F59E0B;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+        }
+
+        /* display section */
+        .display-section {
+            background: #0D0D0D;
+            border: 2px solid #2A2A2A;
+            border-radius: 30px;
+            padding: 1.2rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .display-section:hover {
+            border-color: #F59E0B;
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.2);
+        }
+
+        #calcDisplay {
+            width: 100%;
+            background: none;
+            border: none;
+            color: #FFFFFF;
+            font-size: 2.2rem;
+            text-align: right;
+            font-family: 'Courier New', monospace;
+            outline: none;
+            padding: 0.5rem;
+        }
+
+        #hindiDisplay {
+            color: #F59E0B;
+            font-size: 1.3rem;
+            text-align: right;
+            font-family: 'Nirmala UI', 'Kohinoor Devanagari', sans-serif;
+            padding: 0.5rem;
+            min-height: 3rem;
+            border-top: 1px dashed #2A2A2A;
+            margin-top: 0.5rem;
+            word-break: break-word;
+            letter-spacing: 1px;
+            animation: glowIn 0.5s ease;
+        }
+
+        @keyframes glowIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* button grid */
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 1rem;
+        }
+
+        .calc-btn {
+            background: #0D0D0D;
+            border: 2px solid #2A2A2A;
+            border-radius: 30px;
+            padding: 1.2rem 0.5rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #FFFFFF;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .calc-btn:hover {
+            border-color: #F59E0B;
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.3);
+            transform: scale(1.05);
+        }
+
+        .calc-btn:active {
+            transform: scale(0.95);
+        }
+
+        .operator-btn {
+            background: #F59E0B20;
+            color: #F59E0B;
+            border-color: #F59E0B;
+            font-weight: 800;
+        }
+
+        .equals-btn {
+            background: #F59E0B;
+            color: #0D0D0D;
+            border-color: #FF9F1C;
+            grid-column: span 2;
+            box-shadow: 0 5px 0 #b37008;
+            transform: translateY(-2px);
+        }
+
+        .equals-btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 2px 0 #b37008;
+        }
+
+        .clear-btn {
+            background: #dc262620;
+            color: #dc2626;
+            border-color: #dc2626;
+        }
+
+        .magic-hint {
+            color: #A0A0A0;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            font-style: italic;
+        }
+
+        /* Cyber Rishimuni Logo - EXACT same as counter app */
+        .cyber-logo {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            font-family: "Segoe UI", sans-serif;
+            transition: transform 0.3s ease;
+        }
+
+        .cyber-logo:hover {
+            transform: scale(1.05);
+            opacity: 0.9;
+        }
+
+        /* Logo Image */
+        .cyber-logo img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #F59E0B;
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.3);
+        }
+
+        /* Text */
+        .cyber-logo .logo-text {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 22px;
+            font-weight: 600;
+            color: #F59E0B;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
+            background: rgba(26, 26, 26, 0.8);
+            padding: 8px 16px;
+            border-radius: 30px;
+            border: 1px solid #F59E0B;
+            backdrop-filter: blur(5px);
+            font-family: 'Courier New', monospace;
+        }
+
+        /* Decoration Square */
+        .logo-decoration {
+            width: 10px;
+            height: 40px;
+            background: linear-gradient(180deg, #ff9800, #ff6a00);
+            border-radius: 3px;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .cyber-logo:hover .logo-decoration {
+            box-shadow: 0 0 10px #ff9800;
+        }
+
+        /* subtle background effect */
+        .bg-bling {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 30% 40%, rgba(245, 158, 11, 0.05) 0%, transparent 40%),
+                        radial-gradient(circle at 80% 70%, rgba(245, 158, 11, 0.05) 0%, transparent 45%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* small screen adaptation */
+        @media (max-width: 450px) {
+            .calculator-card {
+                padding: 1.5rem 1rem;
+            }
+            .calc-header {
+                font-size: 1.8rem;
+            }
+            #calcDisplay {
+                font-size: 1.8rem;
+            }
+            #hindiDisplay {
+                font-size: 1rem;
+            }
+            .calc-btn {
+                padding: 1rem 0.3rem;
+                font-size: 1.2rem;
+            }
+            .cyber-logo { 
+                bottom: 10px; 
+                right: 10px; 
+            }
+            .cyber-logo .logo-text { 
+                font-size: 16px; 
+                padding: 5px 10px; 
+            }
+            .cyber-logo img { 
+                width: 30px; 
+                height: 30px; 
+            }
+            .logo-decoration { 
+                height: 30px; 
+                width: 8px;
+            }
+        }
+
+        /* ultra-wide screens */
+        @media (min-width: 1600px) {
+            .cyber-logo { bottom: 30px; right: 30px; }
+            .cyber-logo .logo-text { font-size: 28px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- background spark -->
+    <div class="bg-bling"></div>
+
+    <!-- main calculator card -->
+    <div class="calculator-card">
+       
+
+        <!-- display section -->
+        <div class="display-section">
+            <input type="text" id="calcDisplay" value="0" readonly>
+            <div id="hindiDisplay"></div>
+        </div>
+
+        <!-- button grid -->
+        <div class="button-grid">
+            <button class="calc-btn clear-btn" onclick="clearAll()">C</button>
+            <button class="calc-btn clear-btn" onclick="deleteLast()">⌫</button>
+            <button class="calc-btn operator-btn" onclick="appendOperator('%')">%</button>
+            <button class="calc-btn operator-btn" onclick="appendOperator('/')">÷</button>
+            
+            <button class="calc-btn" onclick="appendNumber('7')">7</button>
+            <button class="calc-btn" onclick="appendNumber('8')">8</button>
+            <button class="calc-btn" onclick="appendNumber('9')">9</button>
+            <button class="calc-btn operator-btn" onclick="appendOperator('*')">×</button>
+            
+            <button class="calc-btn" onclick="appendNumber('4')">4</button>
+            <button class="calc-btn" onclick="appendNumber('5')">5</button>
+            <button class="calc-btn" onclick="appendNumber('6')">6</button>
+            <button class="calc-btn operator-btn" onclick="appendOperator('-')">−</button>
+            
+            <button class="calc-btn" onclick="appendNumber('1')">1</button>
+            <button class="calc-btn" onclick="appendNumber('2')">2</button>
+            <button class="calc-btn" onclick="appendNumber('3')">3</button>
+            <button class="calc-btn operator-btn" onclick="appendOperator('+')">+</button>
+            
+            <button class="calc-btn" onclick="appendNumber('0')">0</button>
+            <button class="calc-btn" onclick="appendNumber('00')">00</button>
+            <button class="calc-btn" onclick="appendDecimal()">.</button>
+            <button class="calc-btn equals-btn" onclick="calculate()">=</button>
+        </div>
+ </div>
+
+    <!-- Cyber Rishimuni Logo - EXACT same as counter app with image.jpg -->
+    <div class="cyber-logo" onclick="window.open('https://cyberrishimuni.github.io/cyberrishimuni/', '_blank')">
+        <div class="logo-text">
+            <img src="../image.jpg" alt="Cyber Rishimuni Logo">
+            CYBER RISHIMUNI
+        </div>
+    </div>
+
+    <script>
+        // Display element
+        const display = document.getElementById('calcDisplay');
+        const hindiDisplay = document.getElementById('hindiDisplay');
+        let shouldReset = false;
+
+        // Number to Hindi words converter
+        function numberToHindiWords(num) {
+            if (num === 'Error' || num === 'Infinity' || isNaN(num)) {
+                return '❌ गणना त्रुटि';
+            }
+
+            // Handle decimal numbers
+            const numStr = num.toString();
+            let integerPart, decimalPart;
+            
+            if (numStr.includes('.')) {
+                [integerPart, decimalPart] = numStr.split('.');
+                // Remove trailing zeros from decimal
+                decimalPart = decimalPart.replace(/0+$/, '');
+            } else {
+                integerPart = numStr;
+                decimalPart = '';
+            }
+
+            // Convert to number and handle large numbers
+            const numValue = parseFloat(integerPart);
+            
+            if (numValue > 999999999) {
+                return 'बहुत बड़ी संख्या';
+            }
+
+            const ones = ['', 'एक', 'दो', 'तीन', 'चार', 'पाँच', 'छह', 'सात', 'आठ', 'नौ', 'दस', 
+                         'ग्यारह', 'बारह', 'तेरह', 'चौदह', 'पंद्रह', 'सोलह', 'सत्रह', 'अठारह', 'उन्नीस', 'बीस',
+                         'इक्कीस', 'बाईस', 'तेईस', 'चौबीस', 'पच्चीस', 'छब्बीस', 'सत्ताईस', 'अट्ठाईस', 'उनतीस', 'तीस',
+                         'इकतीस', 'बत्तीस', 'तैंतीस', 'चौंतीस', 'पैंतीस', 'छत्तीस', 'सैंतीस', 'अड़तीस', 'उनतालीस', 'चालीस',
+                         'इकतालीस', 'बयालीस', 'तैंतालीस', 'चौवालीस', 'पैंतालीस', 'छियालीस', 'सैंतालीस', 'अड़तालीस', 'उनचास', 'पचास',
+                         'इक्यावन', 'बावन', 'तिरेपन', 'चौवन', 'पचपन', 'छप्पन', 'सत्तावन', 'अट्ठावन', 'उनसठ', 'साठ',
+                         'इकसठ', 'बासठ', 'तिरेसठ', 'चौंसठ', 'पैंसठ', 'छियासठ', 'सड़सठ', 'अड़सठ', 'उनहत्तर', 'सत्तर',
+                         'इकहत्तर', 'बहत्तर', 'तिहत्तर', 'चौहत्तर', 'पचहत्तर', 'छिहत्तर', 'सतहत्तर', 'अठहत्तर', 'उनासी', 'अस्सी',
+                         'इक्यासी', 'बयासी', 'तिरासी', 'चौरासी', 'पचासी', 'छियासी', 'सत्तासी', 'अट्ठासी', 'नवासी', 'नब्बे',
+                         'इक्यानवे', 'बानवे', 'तिरानवे', 'चौरानवे', 'पंचानवे', 'छियानवे', 'सत्तानवे', 'अट्ठानवे', 'निन्यानवे', 'सौ'];
+
+            const units = ['', 'हज़ार', 'लाख', 'करोड़'];
+
+            function convertThreeDigits(n) {
+                if (n === 0) return '';
+                if (n < 100) return ones[n];
+                
+                const hundreds = Math.floor(n / 100);
+                const remainder = n % 100;
+                
+                if (remainder === 0) {
+                    return ones[hundreds] + ' सौ';
+                } else {
+                    return ones[hundreds] + ' सौ ' + ones[remainder];
+                }
+            }
+
+            function convertToHindi(n) {
+                if (n === 0) return 'शून्य';
+                
+                let result = '';
+                let num = n;
+                
+                // Handle crores (100 lakhs)
+                const crore = Math.floor(num / 10000000);
+                if (crore > 0) {
+                    result += convertThreeDigits(crore) + ' करोड़ ';
+                    num %= 10000000;
+                }
+                
+                // Handle lakhs
+                const lakh = Math.floor(num / 100000);
+                if (lakh > 0) {
+                    result += convertThreeDigits(lakh) + ' लाख ';
+                    num %= 100000;
+                }
+                
+                // Handle thousands
+                const thousand = Math.floor(num / 1000);
+                if (thousand > 0) {
+                    result += convertThreeDigits(thousand) + ' हज़ार ';
+                    num %= 1000;
+                }
+                
+                // Handle remaining
+                if (num > 0) {
+                    result += convertThreeDigits(num);
+                }
+                
+                return result.trim();
+            }
+
+            // Convert integer part
+            let hindiText = convertToHindi(parseInt(integerPart));
+            
+            // Add decimal part if exists
+            if (decimalPart && decimalPart.length > 0) {
+                hindiText += ' दशमलव ';
+                for (let digit of decimalPart) {
+                    hindiText += ones[parseInt(digit)] + ' ';
+                }
+            }
+            
+            return hindiText || 'शून्य';
+        }
+
+        // Append number
+        function appendNumber(num) {
+            if (display.value === '0' || shouldReset) {
+                display.value = num;
+                shouldReset = false;
+            } else {
+                display.value += num;
+            }
+        }
+
+        // Append operator
+        function appendOperator(op) {
+            const lastChar = display.value.slice(-1);
+            if ('+-*/%'.includes(lastChar)) {
+                display.value = display.value.slice(0, -1) + op;
+            } else {
+                display.value += op;
+            }
+            shouldReset = false;
+        }
+
+        // Append decimal
+        function appendDecimal() {
+            const lastNumber = display.value.split(/[\+\-\*\/%]/).pop();
+            if (!lastNumber.includes('.')) {
+                display.value += '.';
+            }
+            shouldReset = false;
+        }
+
+        // Clear all
+        function clearAll() {
+            display.value = '0';
+            hindiDisplay.textContent = '';
+        }
+
+        // Delete last character
+        function deleteLast() {
+            if (display.value.length > 1) {
+                display.value = display.value.slice(0, -1);
+            } else {
+                display.value = '0';
+            }
+        }
+
+        // Calculate - THE MAGIC HAPPENS HERE
+        function calculate() {
+            try {
+                // Calculate the result
+                let result = eval(display.value);
+                
+                // Format result
+                if (Number.isInteger(result)) {
+                    result = result.toString();
+                } else {
+                    result = result.toFixed(4); // Limit decimal places
+                    // Remove trailing zeros
+                    result = parseFloat(result).toString();
+                }
+                
+                // Update display with result
+                display.value = result;
+                
+                // MAGIC: Convert to Hindi words
+                const hindiWords = numberToHindiWords(result);
+                hindiDisplay.textContent =  hindiWords;
+                
+                shouldReset = true;
+            } catch (error) {
+                display.value = 'Error';
+                hindiDisplay.textContent = '❌ गलत गणना';
+                shouldReset = true;
+            }
+        }
+
+        // Handle keyboard input
+        document.addEventListener('keydown', (e) => {
+            const key = e.key;
+            
+            if (key >= '0' && key <= '9') {
+                appendNumber(key);
+            } else if (key === '.') {
+                appendDecimal();
+            } else if (key === '+' || key === '-' || key === '*' || key === '/') {
+                appendOperator(key === '*' ? '*' : key);
+            } else if (key === '%') {
+                appendOperator('%');
+            } else if (key === 'Enter' || key === '=') {
+                e.preventDefault();
+                calculate();
+            } else if (key === 'Backspace') {
+                deleteLast();
+            } else if (key === 'Escape') {
+                clearAll();
+            }
+        });
+    </script>
+</body>
+</html>

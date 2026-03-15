@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typing Speed Test · Cyber Rishimuni</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #0D0D0D;
+            background: linear-gradient(145deg, #0D0D0D 0%, #121212 100%);
+            font-family: 'Segoe UI', 'Arial', system-ui, sans-serif;
+            margin: 0;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+            color: #FFFFFF;
+        }
+
+        /* Cyber Rishimuni Logo - Bottom Right */
+        .cyber-logo {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            font-family: "Segoe UI", sans-serif;
+            transition: transform 0.3s ease;
+        }
+
+        .cyber-logo:hover {
+            transform: scale(1.05);
+            opacity: 0.9;
+        }
+
+        .cyber-logo img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #F59E0B;
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.3);
+        }
+
+        .cyber-logo .logo-text {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 22px;
+            font-weight: 600;
+            color: #F59E0B;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
+            background: rgba(26, 26, 26, 0.8);
+            padding: 8px 16px;
+            border-radius: 30px;
+            border: 1px solid #F59E0B;
+            backdrop-filter: blur(5px);
+            font-family: 'Courier New', monospace;
+        }
+
+        /* subtle background effect */
+        .bg-bling {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 30% 40%, rgba(245, 158, 11, 0.05) 0%, transparent 40%),
+                        radial-gradient(circle at 80% 70%, rgba(245, 158, 11, 0.05) 0%, transparent 45%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* main container */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* header */
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-top: 2rem;
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: #F59E0B;
+            text-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
+            letter-spacing: 4px;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            color: #A0A0A0;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+        }
+
+        .header p span {
+            color: #F59E0B;
+            font-weight: bold;
+        }
+
+        /* stats card */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: #1A1A1A;
+            border: 2px solid #2A2A2A;
+            border-radius: 30px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            border-color: #F59E0B;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(245, 158, 11, 0.2);
+        }
+
+        .stat-label {
+            color: #A0A0A0;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stat-value {
+            color: #F59E0B;
+            font-size: 2.5rem;
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+        }
+
+        .stat-unit {
+            color: #A0A0A0;
+            font-size: 0.9rem;
+            margin-left: 5px;
+        }
+
+        /* progress bar */
+        .progress-container {
+            background: #1A1A1A;
+            border: 2px solid #2A2A2A;
+            border-radius: 30px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            color: #A0A0A0;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #0D0D0D;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #F59E0B, #FF9F1C);
+            width: 0%;
+            transition: width 0.3s ease;
+            box-shadow: 0 0 15px #F59E0B;
+        }
+
+        /* quote display */
+        .quote-container {
+            background: #1A1A1A;
+            border: 2px solid #2A2A2A;
+            border-radius: 40px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .quote-text {
+            font-size: 1.8rem;
+            line-height: 1.6;
+            color: #FFFFFF;
+            font-family: 'Courier New', monospace;
+            word-spacing: 4px;
+        }
+
+        .quote-text span {
+            position: relative;
+        }
+
+        .quote-text .correct {
+            color: #10b981;
+            text-shadow: 0 0 10px #10b981;
+        }
+
+        .quote-text .current {
+            background: #F59E0B;
+            color: #0D0D0D;
+            padding: 2px 0;
+            border-radius: 4px;
+            animation: blink 1s infinite;
+        }
+
+        .quote-text .wrong {
+            color: #ef4444;
+            text-decoration: underline wavy #ef4444;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.5; }
+        }
+
+        .quote-author {
+            color: #F59E0B;
+            margin-top: 1rem;
+            font-style: italic;
+            text-align: right;
+        }
+
+        /* typing area */
+        .typing-area {
+            background: #1A1A1A;
+            border: 2px solid #2A2A2A;
+            border-radius: 40px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .typing-input {
+            width: 100%;
+            background: #0D0D0D;
+            border: 2px solid #2A2A2A;
+            border-radius: 30px;
+            padding: 1.5rem;
+            color: #FFFFFF;
+            font-size: 1.2rem;
+            font-family: 'Courier New', monospace;
+            resize: none;
+            transition: all 0.3s ease;
+        }
+
+        .typing-input:focus {
+            outline: none;
+            border-color: #F59E0B;
+            box-shadow: 0 0 30px rgba(245, 158, 11, 0.3);
+        }
+
+        .typing-input:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* humiliation message */
+        .humiliation-box {
+            background: rgba(239, 68, 68, 0.1);
+            border: 2px solid #ef4444;
+            border-radius: 30px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .humiliation-text {
+            color: #ef4444;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .humiliation-sub {
+            color: #A0A0A0;
+            font-size: 1rem;
+        }
+
+        .praise-box {
+            background: rgba(16, 185, 129, 0.1);
+            border: 2px solid #10b981;
+            border-radius: 30px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            animation: glow 2s ease;
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 20px #10b981; }
+            50% { box-shadow: 0 0 50px #10b981; }
+        }
+
+        .praise-text {
+            color: #10b981;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .praise-sub {
+            color: #A0A0A0;
+            font-size: 1rem;
+        }
+
+        /* control buttons */
+        .control-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            background: transparent;
+            border: 2px solid #2A2A2A;
+            border-radius: 40px;
+            padding: 1rem 2.5rem;
+            color: #A0A0A0;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn:hover {
+            border-color: #F59E0B;
+            color: #F59E0B;
+        }
+
+        .btn.primary {
+            background: #F59E0B;
+            border-color: #FF9F1C;
+            color: #0D0D0D;
+            font-weight: bold;
+            box-shadow: 0 5px 0 #b37008;
+            transform: translateY(-2px);
+        }
+
+        .btn.primary:hover {
+            transform: translateY(0);
+            box-shadow: 0 2px 0 #b37008;
+        }
+
+        .btn.primary:active {
+            transform: translateY(3px);
+            box-shadow: 0 0 0 #b37008;
+        }
+
+        /* difficulty selector */
+        .difficulty-selector {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .difficulty-btn {
+            background: #1A1A1A;
+            border: 2px solid #2A2A2A;
+            border-radius: 30px;
+            padding: 0.8rem 2rem;
+            color: #A0A0A0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .difficulty-btn:hover {
+            border-color: #F59E0B;
+            color: #F59E0B;
+        }
+
+        .difficulty-btn.active {
+            background: #F59E0B;
+            border-color: #FF9F1C;
+            color: #0D0D0D;
+            font-weight: bold;
+        }
+
+        /* history */
+        .history-container {
+            background: #1A1A1A;
+            border: 2px solid #2A2A2A;
+            border-radius: 40px;
+            padding: 1.5rem;
+        }
+
+        .history-title {
+            color: #F59E0B;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: #0D0D0D;
+            border: 1px solid #2A2A2A;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .history-item:hover {
+            border-color: #F59E0B;
+        }
+
+        .history-score {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #F59E0B;
+        }
+
+        .history-tag {
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        .history-tag.noob { background: #ef4444; color: #FFFFFF; }
+        .history-tag.snail { background: #f97316; color: #0D0D0D; }
+        .history-tag.average { background: #F59E0B; color: #0D0D0D; }
+        .history-tag.pro { background: #3b82f6; color: #FFFFFF; }
+        .history-tag.ninja { background: #8b5cf6; color: #FFFFFF; }
+        .history-tag.legend { background: #10b981; color: #0D0D0D; }
+
+        /* responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .quote-text {
+                font-size: 1.3rem;
+            }
+            
+            .control-buttons {
+                flex-wrap: wrap;
+            }
+            
+            .btn {
+                flex: 1;
+                min-width: 120px;
+            }
+            
+            .cyber-logo {
+                bottom: 10px;
+                right: 10px;
+            }
+            
+            .cyber-logo .logo-text {
+                font-size: 18px;
+                padding: 6px 12px;
+            }
+            
+            .cyber-logo img {
+                width: 35px;
+                height: 35px;
+            }
+        }
+
+        @media (max-width: 450px) {
+            .cyber-logo .logo-text {
+                font-size: 14px;
+                padding: 4px 8px;
+            }
+            .cyber-logo img {
+                width: 30px;
+                height: 30px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .difficulty-selector {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-bling"></div>
+
+    <div class="container">
+        <!-- header -->
+        <div class="header">
+            <h1>TYPING SPEED</h1>
+            <p>test your skills · <span>cyber rishimuni</span></p>
+        </div>
+
+        <!-- stats -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">⚡ WPM</div>
+                <div class="stat-value" id="wpm">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">🎯 ACCURACY</div>
+                <div class="stat-value" id="accuracy">100<span class="stat-unit">%</span></div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">⏱️ TIME</div>
+                <div class="stat-value" id="timer">60<span class="stat-unit">s</span></div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">🏆 TAG</div>
+                <div class="stat-value" id="tag">-</div>
+            </div>
+        </div>
+
+        <!-- progress bar -->
+        <div class="progress-container">
+            <div class="progress-info">
+                <span>Progress</span>
+                <span id="progressText">0/0 words</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar" style="width: 0%;"></div>
+            </div>
+        </div>
+
+        <!-- humiliation/praise message -->
+        <div id="messageBox" style="display: none;"></div>
+
+        <!-- quote display -->
+        <div class="quote-container">
+            <div class="quote-text" id="quoteDisplay"></div>
+            <div class="quote-author" id="quoteAuthor"></div>
+        </div>
+
+        <!-- typing area -->
+        <div class="typing-area">
+            <textarea class="typing-input" id="typingInput" placeholder="Start typing here..." rows="3" disabled></textarea>
+        </div>
+
+  
+        <!-- control buttons -->
+        <div class="control-buttons">
+            <button class="btn primary" id="startBtn" onclick="startTest()">▶ START TEST</button>
+            <button class="btn" id="resetBtn" onclick="resetTest()">🔄 NEW QUOTE</button>
+        </div>
+
+        <!-- history -->
+        <div class="history-container">
+            <div class="history-title">
+                <span>📜</span> RECENT RESULTS
+            </div>
+            <div class="history-list" id="historyList">
+                <!-- history items will be added here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Cyber Rishimuni Logo -->
+    <div class="cyber-logo" onclick="window.open('https://cyberrishimuni.github.io/cyberrishimuni/', '_blank')">
+        <div class="logo-text">
+            <img src="../image.jpg" alt="Cyber Rishimuni Logo">
+            CYBER RISHIMUNI
+        </div>
+    </div>
+
+    <script>
+        // Quotes database
+        const quotes = [
+            { text: "The quick brown fox jumps over the lazy dog.", author: "Typing Classic" },
+            { text: "To be or not to be, that is the question.", author: "Shakespeare" },
+            { text: "All that glitters is not gold.", author: "William Shakespeare" },
+            { text: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
+            { text: "Life is what happens when you're busy making other plans.", author: "John Lennon" },
+            { text: "The future belongs to those who believe in the beauty of their dreams.", author: "Eleanor Roosevelt" },
+            { text: "It does not matter how slowly you go as long as you do not stop.", author: "Confucius" },
+            { text: "Success is not final, failure is not fatal: it is the courage to continue that counts.", author: "Winston Churchill" },
+            { text: "The only impossible journey is the one you never begin.", author: "Tony Robbins" },
+            { text: "Your time is limited, don't waste it living someone else's life.", author: "Steve Jobs" },
+            { text: "The purpose of our lives is to be happy.", author: "Dalai Lama" },
+            { text: "Get busy living or get busy dying.", author: "Stephen King" },
+            { text: "You only live once, but if you do it right, once is enough.", author: "Mae West" },
+            { text: "Many of life's failures are people who did not realize how close they were to success when they gave up.", author: "Thomas Edison" }
+        ];
+
+        // Humiliation messages for low WPM
+        const humiliationMessages = [
+            { tag: "🐌 SNAIL", message: "A snail would type faster than you!", emoji: "🐌" },
+            { tag: "🦥 SLOTH", message: "Even a sloth on sleeping pills types faster!", emoji: "🦥" },
+            { tag: "🪨 ROCK", message: "Are you typing with your nose? A rock has better speed!", emoji: "🪨" },
+            { tag: "🐢 TURTLE", message: "My grandmother's turtle types better than this!", emoji: "🐢" },
+            { tag: "🥔 POTATO", message: "You type like a potato! A raw potato!", emoji: "🥔" },
+            { tag: "🧓 GRANDMA", message: "My 90-year-old grandma types faster... with her toes!", emoji: "🧓" },
+            { tag: "🦦 OTTER", message: "Even an otter playing with stones types faster!", emoji: "🦦" },
+            { tag: "🐌 NOOB", message: "Have you ever seen a keyboard before? Noob alert!", emoji: "🎮" },
+            { tag: "🪦 RIP", message: "Your typing speed is dead. RIP!", emoji: "🪦" },
+            { tag: "🐛 BUG", message: "Are you debugging or typing? This is bug-level slow!", emoji: "🐛" }
+        ];
+
+        // Praise messages for fast typists
+        const praiseMessages = [
+            { tag: "⚡ NINJA", message: "You type like a ninja! Fast and furious!", emoji: "⚡" },
+            { tag: "🤖 CYBORG", message: "Are you human or machine? That's superhuman speed!", emoji: "🤖" },
+            { tag: "🏆 LEGEND", message: "Legendary typing skills! You're in the hall of fame!", emoji: "🏆" },
+            { tag: "🚀 ROCKET", message: "Your fingers are rockets! Blazing fast!", emoji: "🚀" },
+            { tag: "💻 PRO", message: "Pro level unlocked! You're a typing master!", emoji: "💻" },
+            { tag: "👨‍💻 HACKER", message: "Are you hacking the mainframe? That's insane speed!", emoji: "👨‍💻" },
+            { tag: "⚡ FLASH", message: "You type faster than the Flash!", emoji: "⚡" },
+            { tag: "🎯 SNIPER", message: "Perfect accuracy with lightning speed! Sniper level!", emoji: "🎯" }
+        ];
+
+        // Game state
+        let currentQuote = {};
+        let timer = 60;
+        let timeLeft = 60;
+        let testActive = false;
+        let timerInterval = null;
+        let startTime = null;
+        let typedWords = [];
+        let correctChars = 0;
+        let totalChars = 0;
+        let history = JSON.parse(localStorage.getItem('typingHistory')) || [];
+
+        // DOM elements
+        const quoteDisplay = document.getElementById('quoteDisplay');
+        const quoteAuthor = document.getElementById('quoteAuthor');
+        const typingInput = document.getElementById('typingInput');
+        const wpmDisplay = document.getElementById('wpm');
+        const accuracyDisplay = document.getElementById('accuracy');
+        const timerDisplay = document.getElementById('timer');
+        const tagDisplay = document.getElementById('tag');
+        const progressText = document.getElementById('progressText');
+        const progressBar = document.getElementById('progressBar');
+        const messageBox = document.getElementById('messageBox');
+        const startBtn = document.getElementById('startBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const historyList = document.getElementById('historyList');
+
+        // Initialize
+        function init() {
+            loadNewQuote();
+            updateHistory();
+        }
+
+        // Load new random quote
+        function loadNewQuote() {
+            const randomIndex = Math.floor(Math.random() * quotes.length);
+            currentQuote = quotes[randomIndex];
+            renderQuote();
+        }
+
+        // Render quote with highlighting
+        function renderQuote() {
+            if (!testActive) {
+                quoteDisplay.innerHTML = currentQuote.text;
+                quoteAuthor.textContent = `— ${currentQuote.author}`;
+                return;
+            }
+
+            const typed = typingInput.value;
+            const quoteText = currentQuote.text;
+            
+            let html = '';
+            for (let i = 0; i < quoteText.length; i++) {
+                const char = quoteText[i];
+                const typedChar = typed[i];
+                
+                if (i < typed.length) {
+                    if (typedChar === char) {
+                        html += `<span class="correct">${char}</span>`;
+                    } else {
+                        html += `<span class="wrong">${char}</span>`;
+                    }
+                } else if (i === typed.length) {
+                    html += `<span class="current">${char}</span>`;
+                } else {
+                    html += `<span>${char}</span>`;
+                }
+            }
+            
+            quoteDisplay.innerHTML = html;
+            quoteAuthor.textContent = `— ${currentQuote.author}`;
+        }
+
+        // Start test
+        function startTest() {
+            testActive = true;
+            timeLeft = timer;
+            startTime = Date.now();
+            typedWords = [];
+            correctChars = 0;
+            totalChars = 0;
+            
+            typingInput.value = '';
+            typingInput.disabled = false;
+            typingInput.focus();
+            
+            startBtn.disabled = true;
+            resetBtn.disabled = false;
+            
+            // Hide any previous message
+            messageBox.style.display = 'none';
+            
+            // Start timer
+            if (timerInterval) clearInterval(timerInterval);
+            timerInterval = setInterval(updateTimer, 1000);
+            
+            renderQuote();
+        }
+
+        // Update timer
+        function updateTimer() {
+            timeLeft--;
+            timerDisplay.textContent = timeLeft;
+            
+            if (timeLeft <= 0) {
+                endTest();
+            }
+        }
+
+        // End test
+        function endTest() {
+            testActive = false;
+            clearInterval(timerInterval);
+            typingInput.disabled = true;
+            startBtn.disabled = false;
+            
+            calculateResults();
+        }
+
+        // Calculate results
+        function calculateResults() {
+            const typed = typingInput.value;
+            const quoteText = currentQuote.text;
+            
+            // Calculate accuracy
+            totalChars = quoteText.length;
+            correctChars = 0;
+            
+            for (let i = 0; i < typed.length; i++) {
+                if (i < quoteText.length && typed[i] === quoteText[i]) {
+                    correctChars++;
+                }
+            }
+            
+            const accuracy = totalChars > 0 ? Math.round((correctChars / totalChars) * 100) : 0;
+            
+            // Calculate WPM (assuming 5 characters = 1 word)
+            const wordsTyped = typed.length / 5;
+            const minutes = timer / 60;
+            const wpm = Math.round(wordsTyped / minutes);
+            
+            // Get tag based on WPM
+            const tag = getTag(wpm);
+            
+            // Update displays
+            wpmDisplay.textContent = wpm;
+            accuracyDisplay.textContent = accuracy;
+            tagDisplay.textContent = tag.emoji + ' ' + tag.text;
+            
+            // Show humiliation or praise message
+            showMessage(wpm, accuracy, tag);
+            
+            // Save to history
+            saveToHistory(wpm, accuracy, tag.text);
+            
+            // Render final quote
+            renderQuote();
+        }
+
+        // Get tag based on WPM
+        function getTag(wpm) {
+            if (wpm < 10) return { text: 'NOOB', emoji: '🐌' };
+            if (wpm < 20) return { text: 'SNAIL', emoji: '🐌' };
+            if (wpm < 30) return { text: 'SLOTH', emoji: '🦥' };
+            if (wpm < 40) return { text: 'TURTLE', emoji: '🐢' };
+            if (wpm < 50) return { text: 'AVERAGE', emoji: '😐' };
+            if (wpm < 60) return { text: 'GOOD', emoji: '👍' };
+            if (wpm < 70) return { text: 'PRO', emoji: '💻' };
+            if (wpm < 80) return { text: 'NINJA', emoji: '⚡' };
+            if (wpm < 100) return { text: 'LEGEND', emoji: '🏆' };
+            return { text: 'GOD', emoji: '👑' };
+        }
+
+        // Show message (humiliation or praise)
+        function showMessage(wpm, accuracy, tag) {
+            let messageHtml = '';
+            
+            if (wpm < 30) {
+                // Humiliation for slow typists
+                const random = Math.floor(Math.random() * humiliationMessages.length);
+                const msg = humiliationMessages[random];
+                messageHtml = `
+                    <div class="humiliation-box">
+                        <div class="humiliation-text">${msg.emoji} ${msg.tag} ${msg.emoji}</div>
+                        <div class="humiliation-sub">${msg.message}</div>
+                        <div class="humiliation-sub" style="margin-top: 10px;">Your WPM: ${wpm} | Accuracy: ${accuracy}%</div>
+                    </div>
+                `;
+            } else if (wpm >= 70) {
+                // Praise for fast typists
+                const random = Math.floor(Math.random() * praiseMessages.length);
+                const msg = praiseMessages[random];
+                messageHtml = `
+                    <div class="praise-box">
+                        <div class="praise-text">${msg.emoji} ${msg.tag} ${msg.emoji}</div>
+                        <div class="praise-sub">${msg.message}</div>
+                        <div class="praise-sub" style="margin-top: 10px;">Your WPM: ${wpm} | Accuracy: ${accuracy}%</div>
+                    </div>
+                `;
+            } else {
+                // Neutral for average
+                messageHtml = `
+                    <div class="praise-box" style="border-color: #F59E0B; background: rgba(245, 158, 11, 0.1);">
+                        <div class="praise-text" style="color: #F59E0B;">😐 AVERAGE 😐</div>
+                        <div class="praise-sub">Not bad, but you can do better!</div>
+                        <div class="praise-sub" style="margin-top: 10px;">Your WPM: ${wpm} | Accuracy: ${accuracy}%</div>
+                    </div>
+                `;
+            }
+            
+            messageBox.innerHTML = messageHtml;
+            messageBox.style.display = 'block';
+        }
+
+        // Save to history
+        function saveToHistory(wpm, accuracy, tag) {
+            const entry = {
+                wpm,
+                accuracy,
+                tag,
+                timestamp: new Date().toLocaleString()
+            };
+            
+            history.unshift(entry);
+            if (history.length > 10) history.pop();
+            
+            localStorage.setItem('typingHistory', JSON.stringify(history));
+            updateHistory();
+        }
+
+        // Update history display
+        function updateHistory() {
+            if (history.length === 0) {
+                historyList.innerHTML = '<div class="empty-state">No tests yet. Start typing!</div>';
+                return;
+            }
+            
+            historyList.innerHTML = history.map(entry => `
+                <div class="history-item">
+                    <div>
+                        <span class="history-score">${entry.wpm} WPM</span>
+                        <span style="color: #A0A0A0; margin-left: 10px;">${entry.accuracy}%</span>
+                    </div>
+                    <span class="history-tag ${entry.tag.toLowerCase()}">${entry.tag}</span>
+                </div>
+            `).join('');
+        }
+
+        // Reset test
+        function resetTest() {
+            loadNewQuote();
+            
+            if (testActive) {
+                clearInterval(timerInterval);
+                testActive = false;
+            }
+            
+            typingInput.value = '';
+            typingInput.disabled = true;
+            startBtn.disabled = false;
+            
+            timerDisplay.textContent = timer;
+            wpmDisplay.textContent = '0';
+            accuracyDisplay.textContent = '100%';
+            tagDisplay.textContent = '-';
+            
+            progressText.textContent = `0/${currentQuote.text.split(' ').length} words`;
+            progressBar.style.width = '0%';
+            
+            messageBox.style.display = 'none';
+            
+            renderQuote();
+        }
+
+        // Set difficulty
+        function setDifficulty(seconds) {
+            timer = seconds;
+            timerDisplay.textContent = seconds;
+            
+            document.querySelectorAll('.difficulty-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            resetTest();
+        }
+
+        // Handle typing input
+        typingInput.addEventListener('input', () => {
+            if (!testActive) return;
+            
+            const typed = typingInput.value;
+            const quoteText = currentQuote.text;
+            
+            // Update progress
+            const words = quoteText.split(' ');
+            const typedWords = typed.split(' ');
+            const wordsCompleted = Math.min(typedWords.length, words.length);
+            
+            progressText.textContent = `${wordsCompleted}/${words.length} words`;
+            progressBar.style.width = `${(wordsCompleted / words.length) * 100}%`;
+            
+            // Check if completed
+            if (typed === quoteText) {
+                endTest();
+            } else {
+                renderQuote();
+            }
+        });
+
+        // Handle keydown for tab completion
+        typingInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Tab') {
+                e.preventDefault();
+                if (!testActive) {
+                    startTest();
+                }
+            }
+        });
+
+        // Initialize on load
+        init();
+
+        // Make functions global
+        window.startTest = startTest;
+        window.resetTest = resetTest;
+        window.setDifficulty = setDifficulty;
+    </script>
+</body>
+</html>

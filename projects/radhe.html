@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>राधे · क्लिक अनमोल · Cyber Rishimuni</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #0D0D0D;  /* Dark Black */
+            background: linear-gradient(145deg, #0D0D0D 0%, #121212 100%);
+            font-family: 'Segoe UI', 'Arial', system-ui, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 16px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* main card – dark theme */
+        .counter-card {
+            background: #1A1A1A;  /* Dark Gray */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 56px;
+            box-shadow: 0 25px 45px -10px rgba(0, 0, 0, 0.5),
+                        0 2px 8px rgba(245, 158, 11, 0.2);
+            padding: 3rem 4rem;
+            text-align: center;
+            border: 2px solid #2A2A2A;  /* Borders / Dividers */
+            transition: box-shadow 0.3s, border-color 0.3s;
+            max-width: 700px;
+            width: 100%;
+        }
+
+        .counter-card:hover {
+            box-shadow: 0 30px 55px -8px rgba(245, 158, 11, 0.15);
+            border-color: #F59E0B;  /* Amber accent on hover */
+        }
+
+        /* main number – amber theme */
+        .counter-display {
+            font-size: 8rem;
+            font-weight: 800;
+            line-height: 1.1;
+            color: #F59E0B;  /* Primary Accent Amber */
+            text-shadow: 0 0 20px rgba(245, 158, 11, 0.3), 
+                        0 0 40px rgba(245, 158, 11, 0.2);
+            letter-spacing: 6px;
+            margin-bottom: 0.4rem;
+            font-family: 'Nirmala UI', 'Kohinoor Devanagari', 'Segoe UI', sans-serif;
+        }
+
+        .counter-label {
+            font-size: 2rem;
+            letter-spacing: 4px;
+            color: #A0A0A0;  /* Text Secondary Light Gray */
+            background: #1A1A1A;
+            display: inline-block;
+            padding: 0.3rem 2rem;
+            border-radius: 60px;
+            font-weight: 400;
+            box-shadow: inset 0 -2px 5px #2A2A2A;
+            margin-bottom: 2rem;
+            border: 1px solid #2A2A2A;
+        }
+
+        /* divine button – amber theme */
+        .radhe-button {
+            background: #F59E0B;  /* Amber */
+            border: none;
+            padding: 1.2rem 3.2rem;
+            border-radius: 48px;
+            font-size: 2.4rem;
+            font-weight: bold;
+            color: #0D0D0D;  /* Dark text for contrast */
+            text-shadow: 0 2px 5px rgba(255, 255, 255, 0.3);
+            box-shadow: 0 15px 0 #b37008, 0 8px 20px rgba(245, 158, 11, 0.3);
+            cursor: pointer;
+            transition: all 0.1s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+            border: 2px solid #FF9F1C;
+            font-family: 'Nirmala UI', 'Kohinoor Devanagari', sans-serif;
+            line-height: 1.2;
+            margin: 1.5rem 0 0.5rem;
+            transform: translateY(0);
+        }
+
+        .radhe-button:active {
+            transform: translateY(8px);
+            box-shadow: 0 7px 0 #8e5a0a, 0 10px 20px rgba(245, 158, 11, 0.3);
+        }
+
+        /* hint text */
+        .sub-hint {
+            color: #A0A0A0;  /* Light Gray */
+            font-size: 1.3rem;
+            opacity: 0.9;
+            font-style: italic;
+            margin-top: 0.8rem;
+            letter-spacing: 0.5px;
+        }
+
+        /* floating animation container – absolute over card */
+        .animation-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+            overflow: hidden;
+        }
+
+        /* the animated राधे element – amber theme */
+        .radhe-float {
+            position: absolute;
+            font-size: 5.5rem;
+            font-weight: 800;
+            color: #F59E0B;  /* Amber */
+            text-shadow: 0 0 15px rgba(245, 158, 11, 0.5), 
+                        0 0 30px rgba(245, 158, 11, 0.3), 
+                        2px 8px 15px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            font-family: 'Nirmala UI', 'Kohinoor Devanagari', 'Segoe UI', sans-serif;
+            white-space: nowrap;
+            animation: floatRadhe 1.8s ease-out forwards;
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.5));
+            line-height: 1;
+            z-index: 1000;
+            pointer-events: none;
+            transform-origin: center;
+        }
+
+        @keyframes floatRadhe {
+            0% {
+                opacity: 0.9;
+                transform: translateY(0) scale(0.7) rotate(0deg);
+                filter: blur(0);
+            }
+            30% {
+                opacity: 1;
+                transform: translateY(-100px) scale(1.2) rotate(5deg);
+                filter: blur(0);
+            }
+            70% {
+                opacity: 0.7;
+                transform: translateY(-250px) scale(1) rotate(-4deg);
+                filter: blur(2px);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-450px) scale(0.8) rotate(10deg);
+                filter: blur(8px);
+            }
+        }
+
+        /* Cyber Rishimuni Logo - Bottom Right */
+        .cyber-logo {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 4px;
+            pointer-events: auto;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .cyber-logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo-text {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #F59E0B;  /* Amber */
+            text-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
+            letter-spacing: 2px;
+            background: rgba(26, 26, 26, 0.8);
+            padding: 8px 16px;
+            border-radius: 30px;
+            border: 1px solid #F59E0B;
+            backdrop-filter: blur(5px);
+            font-family: 'Courier New', monospace;
+        }
+
+        .logo-sub {
+            font-size: 0.8rem;
+            color: #A0A0A0;  /* Light Gray */
+            background: rgba(26, 26, 26, 0.8);
+            padding: 4px 12px;
+            border-radius: 20px;
+            border: 1px solid #2A2A2A;
+            backdrop-filter: blur(5px);
+        }
+
+        .logo-decoration {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 4px;
+        }
+
+        .logo-decoration span {
+            width: 4px;
+            height: 4px;
+            background: #F59E0B;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #F59E0B;
+        }
+
+        /* subtle background effect */
+        .bg-bling {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 30% 40%, rgba(245, 158, 11, 0.05) 0%, transparent 40%),
+                        radial-gradient(circle at 80% 70%, rgba(245, 158, 11, 0.05) 0%, transparent 45%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .cyber-logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    cursor:pointer;
+    font-family: "Segoe UI", sans-serif;
+}
+
+.cyber-logo:hover{
+    opacity:0.9;
+}
+
+/* Logo Image */
+.cyber-logo img{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    object-fit:cover;
+}
+
+/* Text */
+.logo-text{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:22px;
+    font-weight:600;
+    color:#ffffff;
+    letter-spacing:1px;
+}
+
+/* Decoration Square */
+.logo-decoration{
+    width:10px;
+    height:40px;
+    background:linear-gradient(180deg,#ff9800,#ff6a00);
+    border-radius:3px;
+}
+
+/* Optional glow effect */
+.cyber-logo:hover .logo-decoration{
+    box-shadow:0 0 10px #ff9800;
+}
+
+        /* small screen adaptation */
+        @media (max-width: 550px) {
+            .counter-display { font-size: 5rem; }
+            .counter-label { font-size: 1.5rem; padding: 0.2rem 1rem; }
+            .radhe-button { font-size: 2rem; padding: 1rem 2rem; }
+            .radhe-float { font-size: 4rem; }
+            .cyber-logo { bottom: 10px; right: 10px; }
+            .logo-text { font-size: 1rem; padding: 6px 12px; }
+            .logo-sub { font-size: 0.7rem; }
+        }
+
+        /* ultra-wide screens */
+        @media (min-width: 1600px) {
+            .cyber-logo { bottom: 30px; right: 30px; }
+            .logo-text { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- background spark -->
+    <div class="bg-bling"></div>
+
+    <!-- main clickable card -->
+    <div class="counter-card">
+        <div class="counter-display" id="counterValue">0</div>
+        <button class="radhe-button" id="radheBtn">राधे </button>
+  
+    </div>
+
+    <!-- Cyber Rishimuni Logo -->
+    <div class="cyber-logo" onclick="window.open('https://cyberrishimuni.github.io/cyberrishimuni/', '_blank')" >
+        <div class="logo-text"> <img src="../image.jpg" alt="Cyber Rishimuni Logo">CYBER RISHIMUNI</div>
+        
+    </div>
+
+    <!-- layer where animated राधे appear -->
+    <div class="animation-layer" id="animationLayer"></div>
+
+    <script>
+        (function() {
+            // counter state
+            let count = 0;
+
+            // DOM elements
+            const counterEl = document.getElementById('counterValue');
+            const btn = document.getElementById('radheBtn');
+            const layer = document.getElementById('animationLayer');
+
+            // function to update counter and show animation
+            function handleClick(e) {
+                // increase counter
+                count++;
+                counterEl.textContent = count;
+
+                // create floating राधे element
+                const radheSpan = document.createElement('div');
+                radheSpan.className = 'radhe-float';
+                radheSpan.textContent = 'राधे';
+
+                // random horizontal position
+                const randomX = 10 + Math.random() * 80;
+                radheSpan.style.left = randomX + '%';
+                
+                // random vertical start
+                const randomY = 60 + Math.random() * 30;
+                radheSpan.style.top = randomY + '%';
+
+                // random rotation
+                const rotateStart = (Math.random() - 0.5) * 20;
+                radheSpan.style.transform = `rotate(${rotateStart}deg)`;
+
+                // random animation duration
+                const floatDur = 1.6 + Math.random() * 0.8;
+                radheSpan.style.animation = `floatRadhe ${floatDur}s ease-out forwards`;
+
+                // random scale
+                const baseSize = 4.5 + Math.random() * 3;
+                radheSpan.style.fontSize = baseSize + 'rem';
+
+                // amber color variations
+                const amberShades = ['#F59E0B', '#FF9F1C', '#FBBF24', '#F59E0B', '#FFB347'];
+                radheSpan.style.color = amberShades[Math.floor(Math.random() * amberShades.length)];
+                radheSpan.style.textShadow = `0 0 15px rgba(245, 158, 11, 0.5), 0 0 30px rgba(245, 158, 11, 0.3)`;
+
+                layer.appendChild(radheSpan);
+
+                // cleanup
+                radheSpan.addEventListener('animationend', function() {
+                    if (radheSpan.parentNode) {
+                        radheSpan.parentNode.removeChild(radheSpan);
+                    }
+                });
+
+                setTimeout(() => {
+                    if (radheSpan.parentNode) {
+                        radheSpan.parentNode.removeChild(radheSpan);
+                    }
+                }, 3000);
+            }
+
+            btn.addEventListener('click', handleClick);
+            btn.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handleClick(e);
+                }
+            });
+
+            counterEl.textContent = '0';
+        })();
+    </script>
+</body>
+</html>

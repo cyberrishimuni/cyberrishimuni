@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GK Quiz · Cyber Rishimuni</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #0D0D0D;
+            background: linear-gradient(145deg, #0D0D0D 0%, #121212 100%);
+            font-family: 'Segoe UI', 'Arial', system-ui, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 16px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* main card – dark theme */
+        .quiz-card {
+            background: #1A1A1A;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 56px;
+            box-shadow: 0 25px 45px -10px rgba(0, 0, 0, 0.5),
+                        0 2px 8px rgba(245, 158, 11, 0.2);
+            padding: 2.5rem 2.5rem;
+            text-align: center;
+            border: 2px solid #2A2A2A;
+            transition: box-shadow 0.3s, border-color 0.3s;
+            max-width: 650px;
+            width: 100%;
+            min-height: 500px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .quiz-card:hover {
+            box-shadow: 0 30px 55px -8px rgba(245, 158, 11, 0.15);
+            border-color: #F59E0B;
+        }
+
+        /* header */
+        .quiz-header {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #F59E0B;
+            text-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
+            letter-spacing: 4px;
+            margin-bottom: 0.3rem;
+            font-family: 'Courier New', monospace;
+        }
+
+        .quiz-sub {
+            font-size: 1rem;
+            color: #A0A0A0;
+            margin-bottom: 1.5rem;
+            letter-spacing: 2px;
+            border-bottom: 1px solid #2A2A2A;
+            padding-bottom: 1rem;
+        }
+
+        /* progress bar */
+        .progress-section {
+            margin-bottom: 2rem;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            color: #A0A0A0;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #2A2A2A;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #F59E0B;
+            width: 0%;
+            transition: width 0.3s ease;
+            box-shadow: 0 0 10px #F59E0B;
+        }
+
+        /* score display */
+        .score-display {
+            background: #0D0D0D;
+            border: 2px solid #2A2A2A;
+            border-radius: 40px;
+            padding: 0.8rem 1.5rem;
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: #F59E0B;
+            font-size: 1.2rem;
+            font-weight: bold;
+            align-self: center;
+        }
+
+        .score-display span {
+            color: #FFFFFF;
+            font-size: 1.5rem;
+            margin: 0 5px;
+        }
+
+        /* question container */
+        .question-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .question-text {
+            color: #FFFFFF;
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            line-height: 1.4;
+            font-weight: 500;
+            min-height: 80px;
+        }
+
+        /* options grid */
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 2rem;
+        }
+
+        .option-btn {
+            background: #0D0D0D;
+            border: 2px solid #2A2A2A;
+            border-radius: 40px;
+            padding: 1.2rem 1rem;
+            font-size: 1.1rem;
+            color: #FFFFFF;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            font-family: 'Segoe UI', sans-serif;
+            word-break: break-word;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            border-color: #F59E0B;
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.3);
+            transform: scale(1.02);
+        }
+
+        .option-btn.correct {
+            background: #10b98120;
+            border-color: #10b981;
+            color: #10b981;
+            animation: pulse 0.5s ease;
+        }
+
+        .option-btn.wrong {
+            background: #dc262620;
+            border-color: #dc2626;
+            color: #dc2626;
+            animation: shake 0.3s ease;
+        }
+
+        .option-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        /* next button */
+        .next-btn {
+            background: #F59E0B;
+            border: none;
+            padding: 1.2rem 2rem;
+            border-radius: 48px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #0D0D0D;
+            text-shadow: 0 2px 5px rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 0 #b37008, 0 5px 15px rgba(245, 158, 11, 0.3);
+            cursor: pointer;
+            transition: all 0.1s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+            border: 2px solid #FF9F1C;
+            font-family: 'Segoe UI', sans-serif;
+            width: 100%;
+            transform: translateY(0);
+            letter-spacing: 2px;
+            margin-top: auto;
+        }
+
+        .next-btn:active {
+            transform: translateY(5px);
+            box-shadow: 0 3px 0 #8e5a0a, 0 8px 15px rgba(245, 158, 11, 0.3);
+        }
+
+        .next-btn:disabled {
+            opacity: 0.5;
+            transform: translateY(0);
+            box-shadow: 0 8px 0 #b37008;
+            cursor: not-allowed;
+        }
+
+        /* restart button */
+        .restart-btn {
+            background: transparent;
+            border: 2px solid #2A2A2A;
+            padding: 1rem;
+            border-radius: 40px;
+            font-size: 1rem;
+            color: #A0A0A0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Segoe UI', sans-serif;
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .restart-btn:hover {
+            border-color: #F59E0B;
+            color: #F59E0B;
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.2);
+        }
+
+        /* result screen */
+        .result-screen {
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        .final-score {
+            font-size: 5rem;
+            color: #F59E0B;
+            text-shadow: 0 0 30px rgba(245, 158, 11, 0.5);
+            margin-bottom: 1rem;
+        }
+
+        .final-message {
+            color: #FFFFFF;
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+        }
+
+        .final-stats {
+            color: #A0A0A0;
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            line-height: 2;
+        }
+
+        /* Cyber Rishimuni Logo - EXACT same as counter app */
+        .cyber-logo {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            font-family: "Segoe UI", sans-serif;
+            transition: transform 0.3s ease;
+        }
+
+        .cyber-logo:hover {
+            transform: scale(1.05);
+            opacity: 0.9;
+        }
+
+        /* Logo Image */
+        .cyber-logo img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #F59E0B;
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.3);
+        }
+
+        /* Text */
+        .cyber-logo .logo-text {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 22px;
+            font-weight: 600;
+            color: #F59E0B;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
+            background: rgba(26, 26, 26, 0.8);
+            padding: 8px 16px;
+            border-radius: 30px;
+            border: 1px solid #F59E0B;
+            backdrop-filter: blur(5px);
+            font-family: 'Courier New', monospace;
+        }
+
+        /* Decoration Square */
+        .logo-decoration {
+            width: 10px;
+            height: 40px;
+            background: linear-gradient(180deg, #ff9800, #ff6a00);
+            border-radius: 3px;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .cyber-logo:hover .logo-decoration {
+            box-shadow: 0 0 10px #ff9800;
+        }
+
+        /* subtle background effect */
+        .bg-bling {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 30% 40%, rgba(245, 158, 11, 0.05) 0%, transparent 40%),
+                        radial-gradient(circle at 80% 70%, rgba(245, 158, 11, 0.05) 0%, transparent 45%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* small screen adaptation */
+        @media (max-width: 550px) {
+            .quiz-card {
+                padding: 1.5rem 1.2rem;
+            }
+            .quiz-header {
+                font-size: 2.2rem;
+            }
+            .question-text {
+                font-size: 1.2rem;
+            }
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+            .option-btn {
+                padding: 1rem;
+                font-size: 1rem;
+            }
+            .final-score {
+                font-size: 4rem;
+            }
+            .final-message {
+                font-size: 1.4rem;
+            }
+            .cyber-logo { 
+                bottom: 10px; 
+                right: 10px; 
+            }
+            .cyber-logo .logo-text { 
+                font-size: 18px; 
+                padding: 6px 12px; 
+            }
+            .cyber-logo img { 
+                width: 35px; 
+                height: 35px; 
+            }
+            .logo-decoration { 
+                height: 35px; 
+            }
+        }
+
+        @media (max-width: 450px) {
+            .cyber-logo .logo-text { 
+                font-size: 14px; 
+                padding: 4px 8px; 
+            }
+            .cyber-logo img { 
+                width: 30px; 
+                height: 30px; 
+            }
+            .logo-decoration { 
+                height: 30px; 
+                width: 8px;
+            }
+        }
+
+        /* ultra-wide screens */
+        @media (min-width: 1600px) {
+            .cyber-logo { bottom: 30px; right: 30px; }
+            .cyber-logo .logo-text { font-size: 28px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- background spark -->
+    <div class="bg-bling"></div>
+
+    <!-- main quiz card -->
+    <div class="quiz-card" id="quizCard">
+        <!-- content will be dynamically populated -->
+    </div>
+
+    <!-- Cyber Rishimuni Logo - EXACT same as counter app with image.jpg -->
+    <div class="cyber-logo" onclick="window.open('https://cyberrishimuni.github.io/cyberrishimuni/', '_blank')">
+        <div class="logo-text">
+            <img src="../image.jpg" alt="Cyber Rishimuni Logo">
+            CYBER RISHIMUNI
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            // GK Quiz Questions
+            const questions = [
+                {
+                    question: "What is the capital of France?",
+                    options: ["London", "Berlin", "Paris", "Madrid"],
+                    correct: 2
+                },
+                {
+                    question: "Who wrote 'Romeo and Juliet'?",
+                    options: ["Charles Dickens", "William Shakespeare", "Jane Austen", "Mark Twain"],
+                    correct: 1
+                },
+                {
+                    question: "What is the largest planet in our solar system?",
+                    options: ["Mars", "Saturn", "Jupiter", "Neptune"],
+                    correct: 2
+                },
+                {
+                    question: "In which year did India gain independence?",
+                    options: ["1945", "1947", "1950", "1952"],
+                    correct: 1
+                },
+                {
+                    question: "What is the chemical symbol for gold?",
+                    options: ["Go", "Gd", "Au", "Ag"],
+                    correct: 2
+                },
+                {
+                    question: "Who is known as the 'Father of the Nation' in India?",
+                    options: ["Jawaharlal Nehru", "Mahatma Gandhi", "Subhas Chandra Bose", "Bhagat Singh"],
+                    correct: 1
+                },
+                {
+                    question: "What is the hardest natural substance on Earth?",
+                    options: ["Gold", "Iron", "Diamond", "Platinum"],
+                    correct: 2
+                },
+                {
+                    question: "Which ocean is the largest?",
+                    options: ["Atlantic", "Indian", "Arctic", "Pacific"],
+                    correct: 3
+                },
+                {
+                    question: "Who invented the telephone?",
+                    options: ["Thomas Edison", "Alexander Graham Bell", "Nikola Tesla", "Albert Einstein"],
+                    correct: 1
+                },
+                {
+                    question: "What is the national animal of India?",
+                    options: ["Lion", "Elephant", "Tiger", "Peacock"],
+                    correct: 2
+                }
+            ];
+
+            // State
+            let currentQuestionIndex = 0;
+            let score = 0;
+            let selectedOption = null;
+            let quizCompleted = false;
+            let answersSelected = new Array(questions.length).fill(false);
+
+            // DOM elements
+            const quizCard = document.getElementById('quizCard');
+
+            // Render quiz
+            function renderQuiz() {
+                if (quizCompleted) {
+                    renderResultScreen();
+                } else {
+                    renderQuestionScreen();
+                }
+            }
+
+            // Render question screen
+            function renderQuestionScreen() {
+                const question = questions[currentQuestionIndex];
+                const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+
+                let optionsHtml = '';
+                question.options.forEach((option, index) => {
+                    let optionClass = 'option-btn';
+                    if (answersSelected[currentQuestionIndex] && selectedOption !== null) {
+                        if (index === question.correct) {
+                            optionClass += ' correct';
+                        } else if (index === selectedOption && selectedOption !== question.correct) {
+                            optionClass += ' wrong';
+                        }
+                    }
+                    optionsHtml += `<button class="${optionClass}" onclick="selectOption(${index})" ${answersSelected[currentQuestionIndex] ? 'disabled' : ''}>${option}</button>`;
+                });
+
+                const html = `
+                    <div class="quiz-header">GK QUIZ</div>
+                    <div class="quiz-sub">⚡ general knowledge · test yourself</div>
+                    
+                    <div class="progress-section">
+                        <div class="progress-info">
+                            <span>Question ${currentQuestionIndex + 1}/${questions.length}</span>
+                            <span>Score: ${score}</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${progress}%"></div>
+                        </div>
+                    </div>
+
+                    <div class="score-display">
+                        📊 <span>${score}</span> / ${questions.length}
+                    </div>
+
+                    <div class="question-container">
+                        <div class="question-text">${question.question}</div>
+                        
+                        <div class="options-grid">
+                            ${optionsHtml}
+                        </div>
+
+                        <button class="next-btn" onclick="nextQuestion()" ${!answersSelected[currentQuestionIndex] ? 'disabled' : ''}>
+                            ${currentQuestionIndex === questions.length - 1 ? 'FINISH' : 'NEXT →'}
+                        </button>
+                    </div>
+                `;
+
+                quizCard.innerHTML = html;
+            }
+
+            // Render result screen
+            function renderResultScreen() {
+                const percentage = (score / questions.length) * 100;
+                let message = '';
+                
+                if (percentage >= 80) {
+                    message = '🏆 प्रतिभाशाली!';
+                } else if (percentage >= 60) {
+                    message = '🎯 बहुत अच्छा!';
+                } else if (percentage >= 40) {
+                    message = '📚 अच्छा प्रयास!';
+                } else {
+                    message = '🌱 और सीखें!';
+                }
+
+                const html = `
+                    <div class="quiz-header">GK QUIZ</div>
+                    <div class="quiz-sub">⚡ final results</div>
+                    
+                    <div class="result-screen">
+                        <div class="final-score">${score}/${questions.length}</div>
+                        <div class="final-message">${message}</div>
+                        <div class="final-stats">
+                            ⭐ सही: ${score}<br>
+                            ❌ गलत: ${questions.length - score}<br>
+                            📊 प्रतिशत: ${percentage}%
+                        </div>
+                        
+                        <button class="next-btn" onclick="restartQuiz()">🔄 PLAY AGAIN</button>
+                    </div>
+                `;
+
+                quizCard.innerHTML = html;
+            }
+
+            // Select option
+            window.selectOption = (index) => {
+                if (!answersSelected[currentQuestionIndex]) {
+                    selectedOption = index;
+                    answersSelected[currentQuestionIndex] = true;
+                    
+                    if (index === questions[currentQuestionIndex].correct) {
+                        score++;
+                    }
+                    
+                    renderQuiz();
+                }
+            };
+
+            // Next question
+            window.nextQuestion = () => {
+                if (currentQuestionIndex < questions.length - 1) {
+                    currentQuestionIndex++;
+                    selectedOption = null;
+                    renderQuiz();
+                } else {
+                    quizCompleted = true;
+                    renderQuiz();
+                }
+            };
+
+            // Restart quiz
+            window.restartQuiz = () => {
+                currentQuestionIndex = 0;
+                score = 0;
+                selectedOption = null;
+                quizCompleted = false;
+                answersSelected = new Array(questions.length).fill(false);
+                renderQuiz();
+            };
+
+            // Initialize
+            renderQuiz();
+
+            // Make functions globally available
+            window.selectOption = selectOption;
+            window.nextQuestion = nextQuestion;
+            window.restartQuiz = restartQuiz;
+        })();
+    </script>
+</body>
+</html>
