@@ -505,6 +505,7 @@
 </a>
 
             
+            <button class="mobile-toggle" aria-label="Toggle Navigation"><span></span><span></span><span></span></button>
             <nav class="nav-menu">
                 <ul class="nav-links">
                     <li class="dropdown">
@@ -758,5 +759,27 @@
     </footer>
 
     
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const toggle = document.querySelector('.mobile-toggle');
+        const nav = document.querySelector('.nav-menu');
+        if (!toggle || !nav) return;
+
+        toggle.addEventListener('click', function() {
+            nav.classList.toggle('active');
+            toggle.classList.toggle('open');
+        });
+
+        nav.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', function() {
+                if (window.innerWidth < 900) {
+                    nav.classList.remove('active');
+                    toggle.classList.remove('open');
+                }
+            });
+        });
+    });
+    </script>
 </body>
 </html>
